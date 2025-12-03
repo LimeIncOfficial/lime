@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NIST Post-Quantum Cryptographic Standards: Technical Reference</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { font-family: Georgia, 'Times New Roman', serif; }
+    .mono { font-family: 'SF Mono', 'Monaco', 'Consolas', monospace; }
+  </style>
+</head>
+<body class="bg-white text-slate-900 p-6 min-h-screen">
+  <div style="max-width: 1000px; margin: 0 auto;">
+
+    <!-- Header -->
+    <div class="border-b-2 border-slate-900 pb-4 mb-6">
+      <h1 class="text-2xl font-bold tracking-tight">NIST Post-Quantum Cryptographic Standards: Technical Reference</h1>
+      <p class="text-sm text-slate-600 mt-1">FIPS 203 (ML-KEM) · FIPS 204 (ML-DSA) · FIPS 205 (SLH-DSA) · Finalized August 2024</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+      <!-- Left Column -->
+      <div class="space-y-5">
+
+        <!-- Mathematical Foundation -->
+        <div class="border border-slate-300 p-4">
+          <h2 class="text-sm font-bold uppercase tracking-wider border-b border-slate-300 pb-1 mb-3">Module Learning With Errors (MLWE)</h2>
+          <div class="text-sm space-y-2">
+            <p class="text-slate-700">Ring: <span class="mono bg-slate-100 px-1">R_q = Z_q[X]/(X^n + 1)</span> where n=256, q=3329</p>
+            <div class="bg-slate-50 p-3 mono text-xs border-l-2 border-slate-400">
+              <p class="mb-1">KeyGen():</p>
+              <p class="pl-3">ρ, σ ← {0,1}^256</p>
+              <p class="pl-3">A ← Sam(ρ) ∈ R_q^(k×k)</p>
+              <p class="pl-3">s, e ← β_η(σ) ∈ R_q^k</p>
+              <p class="pl-3">t := As + e</p>
+              <p class="pl-3">return (pk=(t,ρ), sk=s)</p>
+            </div>
+            <p class="text-xs text-slate-600 mt-2">Security reduces to worst-case lattice problems via Regev's reduction (STOC 2005). Quantum speedup for SVP remains marginal—best known: 2^(0.265n) vs classical 2^(0.292n).</p>
+          </div>
+        </div>
+
+        <!-- ML-KEM Parameters -->
+        <div class="border border-slate-300 p-4">
+          <h2 class="text-sm font-bold uppercase tracking-wider border-b border-slate-300 pb-1 mb-3">ML-KEM Parameter Sets (FIPS 203)</h2>
+          <table class="w-full text-xs">
+            <thead>
+              <tr class="border-b border-slate-300">
+                <th class="text-left py-1 font-semibold">Param</th>
+                <th class="text-center font-semibold">512</th>
+                <th class="text-center font-semibold">768</th>
+                <th class="text-center font-semibold">1024</th>
+              </tr>
+            </thead>
+            <tbody class="mono">
+              <tr class="border-b border-slate-200"><td class="py-1">k (rank)</td><td class="text-center">2</td><td class="text-center">3</td><td class="text-center">4</td></tr>
+              <tr class="border-b border-slate-200"><td class="py-1">η₁, η₂</td><td class="text-center">3, 2</td><td class="text-center">2, 2</td><td class="text-center">2, 2</td></tr>
+              <tr class="border-b border-slate-200"><td class="py-1">(d_u, d_v)</td><td class="text-center">10, 4</td><td class="text-center">10, 4</td><td class="text-center">11, 5</td></tr>
+              <tr class="border-b border-slate-200"><td class="py-1">|pk| bytes</td><td class="text-center">800</td><td class="text-center">1,184</td><td class="text-center">1,568</td></tr>
+              <tr class="border-b border-slate-200"><td class="py-1">|ct| bytes</td><td class="text-center">768</td><td class="text-center">1,088</td><td class="text-center">1,568</td></tr>
+              <tr class="border-b border-slate-200"><td class="py-1">δ (failure)</td><td class="text-center">2^-139</td><td class="text-center">2^-164</td><td class="text-center">2^-174</td></tr>
+              <tr><td class="py-1">Security</td><td class="text-center">I</td><td class="text-center">III</td><td class="text-center">V</td></tr>
+            </tbody>
+          </table>
+          <p class="text-xs text-slate-600 mt-2">NTT-based multiplication: O(n log n). Decapsulation includes FO re-encryption for IND-CCA2.</p>
+        </div>
+
+        <!-- ML-DSA Parameters -->
+        <div class="border border-slate-300 p-4">
+          <h2 class="text-sm font-bold uppercase tracking-wider border-b border-slate-300 pb-1 mb-3">ML-DSA Parameter Sets (FIPS 204)</h2>
+          <table class="w-full text-xs">
+            <thead>
+              <tr class="border-b border-slate-300">
+                <th class="text-left py-1 font-semibold">Param</th>
+                <th class="text-center font-semibold">44</th>
+                <th class="text-center font-semibold">65</th>
+                <th class="text-center font-semibold">87</th>
+              </tr>
+            </thead>
+            <tbody class="mono">
+              <tr class="border-b border-slate-200"><td class="py-1">(k, l)</td><td class="text-center">4, 4</td><td class="text-center">6, 5</td><td class="text-center">8, 7</td></tr>
+              <tr class="border-b border-slate-200"><td class="py-1">q</td><td class="text-center" colspan="3">8,380,417</td></tr>
+              <tr class="border-b border-slate-200"><td class="py-1">γ₁</td><td class="text-center">2^17</td><td class="text-center">2^19</td><td class="text-center">2^19</td></tr>
+              <tr class="border-b border-slate-200"><td class="py-1">γ₂</td><td class="text-center">(q-1)/88</td><td class="text-center">(q-1)/32</td><td class="text-center">(q-1)/32</td></tr>
+              <tr class="border-b border-slate-200"><td class="py-1">|pk| bytes</td><td class="text-center">1,312</td><td class="text-center">1,952</td><td class="text-center">2,592</td></tr>
+              <tr class="border-b border-slate-200"><td class="py-1">|sig| bytes</td><td class="text-center">2,420</td><td class="text-center">3,293</td><td class="text-center">4,595</td></tr>
+              <tr><td class="py-1">Security</td><td class="text-center">II</td><td class="text-center">III</td><td class="text-center">V</td></tr>
+            </tbody>
+          </table>
+          <p class="text-xs text-slate-600 mt-2">Fiat-Shamir with aborts. Expected iterations: ~4.25 (ML-DSA-65). Rejection sampling leaks timing—constant-time impl. required.</p>
+        </div>
+
+        <!-- SLH-DSA -->
+        <div class="border border-slate-300 p-4">
+          <h2 class="text-sm font-bold uppercase tracking-wider border-b border-slate-300 pb-1 mb-3">SLH-DSA Signature Sizes (FIPS 205)</h2>
+          <table class="w-full text-xs">
+            <thead>
+              <tr class="border-b border-slate-300">
+                <th class="text-left py-1 font-semibold">Variant</th>
+                <th class="text-center font-semibold">|pk|</th>
+                <th class="text-center font-semibold">|sig|</th>
+                <th class="text-center font-semibold">Sign ops/s</th>
+              </tr>
+            </thead>
+            <tbody class="mono">
+              <tr class="border-b border-slate-200"><td class="py-1">128s (SHA2)</td><td class="text-center">32</td><td class="text-center">7,856</td><td class="text-center">~7</td></tr>
+              <tr class="border-b border-slate-200"><td class="py-1">128f (SHA2)</td><td class="text-center">32</td><td class="text-center">17,088</td><td class="text-center">~75</td></tr>
+              <tr class="border-b border-slate-200"><td class="py-1">192s (SHA2)</td><td class="text-center">48</td><td class="text-center">16,224</td><td class="text-center">~3</td></tr>
+              <tr class="border-b border-slate-200"><td class="py-1">256s (SHA2)</td><td class="text-center">64</td><td class="text-center">29,792</td><td class="text-center">~1</td></tr>
+              <tr><td class="py-1">256f (SHA2)</td><td class="text-center">64</td><td class="text-center">49,856</td><td class="text-center">~10</td></tr>
+            </tbody>
+          </table>
+          <p class="text-xs text-slate-600 mt-2">WOTS+ OTS with hypertree. Security assumption: hash function collision/preimage resistance only. SHAKE256 variants available.</p>
+        </div>
+      </div>
+
+      <!-- Right Column -->
+      <div class="space-y-5">
+
+        <!-- Performance Benchmarks -->
+        <div class="border border-slate-300 p-4">
+          <h2 class="text-sm font-bold uppercase tracking-wider border-b border-slate-300 pb-1 mb-3">Performance: Cycles on Haswell (AVX2)</h2>
+          <table class="w-full text-xs">
+            <thead>
+              <tr class="border-b border-slate-300">
+                <th class="text-left py-1 font-semibold">Operation</th>
+                <th class="text-right font-semibold">ML-KEM-768</th>
+                <th class="text-right font-semibold">ML-DSA-65</th>
+              </tr>
+            </thead>
+            <tbody class="mono">
+              <tr class="border-b border-slate-200"><td class="py-1">KeyGen</td><td class="text-right">~29,000</td><td class="text-right">~98,000</td></tr>
+              <tr class="border-b border-slate-200"><td class="py-1">Encaps/Sign</td><td class="text-right">~37,000</td><td class="text-right">~260,000*</td></tr>
+              <tr class="border-b border-slate-200"><td class="py-1">Decaps/Verify</td><td class="text-right">~45,000</td><td class="text-right">~105,000</td></tr>
+            </tbody>
+          </table>
+          <p class="text-xs text-slate-600 mt-2">*Signing variance due to rejection. Compare: X25519 ~60k, Ed25519 sign ~80k, verify ~200k cycles.</p>
+
+          <h3 class="text-xs font-bold mt-4 mb-2">TLS 1.3 Handshake Overhead (Cloudflare prod data)</h3>
+          <div class="mono text-xs space-y-1">
+            <p>X25519+ML-KEM-768 hybrid: +1,608 bytes ClientHello</p>
+            <p>Cold connection latency: +15.5ms (amortized)</p>
+            <p>Resumed sessions: negligible impact</p>
+          </div>
+        </div>
+
+        <!-- Quantum Timeline -->
+        <div class="border border-slate-300 p-4">
+          <h2 class="text-sm font-bold uppercase tracking-wider border-b border-slate-300 pb-1 mb-3">Quantum Computing Trajectory</h2>
+          <div class="text-xs space-y-2">
+            <div class="flex justify-between border-b border-slate-200 pb-1">
+              <span class="font-semibold">Threshold for RSA-2048</span>
+              <span class="mono">~4,099 logical qubits</span>
+            </div>
+            <div class="flex justify-between border-b border-slate-200 pb-1">
+              <span class="font-semibold">Threshold for ECC P-256</span>
+              <span class="mono">~2,330 logical qubits</span>
+            </div>
+            <div class="mt-3 space-y-1 mono">
+              <p><span class="inline-block w-12">2025:</span> IBM Kookaburra 1,386 physical qubits</p>
+              <p><span class="inline-block w-12">2029:</span> IBM 200 logical qubits (fault-tolerant)</p>
+              <p><span class="inline-block w-12">2028:</span> IonQ 1,600 error-corrected logical qubits</p>
+              <p><span class="inline-block w-12">2033:</span> IBM 100,000 physical qubits target</p>
+            </div>
+            <p class="text-slate-600 mt-2">Physical-to-logical ratio depends on error correction. Current estimates: 1,000-10,000 physical qubits per logical qubit for cryptographic operations.</p>
+          </div>
+        </div>
+
+        <!-- Implementation Considerations -->
+        <div class="border border-slate-300 p-4">
+          <h2 class="text-sm font-bold uppercase tracking-wider border-b border-slate-300 pb-1 mb-3">Implementation Attack Surface</h2>
+          <div class="text-xs space-y-3">
+            <div>
+              <p class="font-semibold">Timing Side-Channels</p>
+              <p class="text-slate-600">NTT butterfly operations, coefficient reduction, rejection sampling loops. Barrett reduction preferred over Montgomery for constant-time.</p>
+            </div>
+            <div>
+              <p class="font-semibold">Power Analysis</p>
+              <p class="text-slate-600">Polynomial multiplication leaks Hamming weight. Masking countermeasures add 2-5x overhead.</p>
+            </div>
+            <div>
+              <p class="font-semibold">Fault Injection</p>
+              <p class="text-slate-600">Skip rejection sampling → signature forgery. Randomize iteration counts, verify outputs.</p>
+            </div>
+            <div class="bg-slate-100 p-2 mt-2 border-l-2 border-slate-500">
+              <p class="font-semibold">Constant-time conditional:</p>
+              <p class="mono text-xs mt-1">mask = (a - q) >> 31;</p>
+              <p class="mono text-xs">a = (a & mask) | ((a-q) & ~mask);</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Library Status -->
+        <div class="border border-slate-300 p-4">
+          <h2 class="text-sm font-bold uppercase tracking-wider border-b border-slate-300 pb-1 mb-3">Library Implementation Status</h2>
+          <table class="w-full text-xs">
+            <thead>
+              <tr class="border-b border-slate-300">
+                <th class="text-left py-1 font-semibold">Library</th>
+                <th class="text-center font-semibold">KEM</th>
+                <th class="text-center font-semibold">DSA</th>
+                <th class="text-left font-semibold">Notes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-b border-slate-200"><td class="py-1">OpenSSL 3.5+</td><td class="text-center">●</td><td class="text-center">○</td><td class="text-slate-600">ML-KEM native</td></tr>
+              <tr class="border-b border-slate-200"><td class="py-1">BoringSSL</td><td class="text-center">●</td><td class="text-center">○</td><td class="text-slate-600">Chrome production</td></tr>
+              <tr class="border-b border-slate-200"><td class="py-1">LibOQS 0.10+</td><td class="text-center">●</td><td class="text-center">●</td><td class="text-slate-600">Reference + optimized</td></tr>
+              <tr class="border-b border-slate-200"><td class="py-1">AWS-LC</td><td class="text-center">●</td><td class="text-center">●</td><td class="text-slate-600">FIPS validated (pending)</td></tr>
+              <tr><td class="py-1">pqcrypto (Rust)</td><td class="text-center">●</td><td class="text-center">●</td><td class="text-slate-600">liboqs bindings</td></tr>
+            </tbody>
+          </table>
+          <p class="text-xs text-slate-600 mt-2">● Production-ready ○ Experimental/planned</p>
+        </div>
+
+        <!-- Hybrid Construction -->
+        <div class="border border-slate-300 p-4">
+          <h2 class="text-sm font-bold uppercase tracking-wider border-b border-slate-300 pb-1 mb-3">Hybrid Key Exchange (TLS 1.3)</h2>
+          <div class="mono text-xs bg-slate-50 p-3 border-l-2 border-slate-400">
+            <p>struct HybridKeyShare {</p>
+            <p class="pl-3">opaque x25519_share[32];</p>
+            <p class="pl-3">opaque mlkem768_ct[1088];</p>
+            <p>}</p>
+            <p class="mt-2">shared_secret = HKDF(</p>
+            <p class="pl-3">x25519_ss || mlkem_ss,</p>
+            <p class="pl-3">salt="hybrid-kex",</p>
+            <p class="pl-3">info="tls13"</p>
+            <p>)</p>
+          </div>
+          <p class="text-xs text-slate-600 mt-2">Concatenate-then-KDF. Secure if either primitive holds. Chrome negotiates as x25519_mlkem768 (0x11EC).</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="mt-6 pt-4 border-t border-slate-300 text-xs text-slate-500 flex flex-col sm:flex-row justify-between gap-2">
+      <span>Sources: NIST FIPS 203/204/205, CRYSTALS specifications, Cloudflare engineering blog, IBM/IonQ roadmaps</span>
+      <span>Dec 2024 | <a href="https://lime-sec.netlify.app" class="underline hover:text-slate-700">Lime Security</a></span>
+    </div>
+  </div>
+</body>
+</html>
