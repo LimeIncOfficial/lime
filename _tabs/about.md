@@ -9,7 +9,7 @@ order: 4
 **Offensive Security Specialist | Red Team Operator | Threat Intelligence Researcher**
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/sidious07/)
-[![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/LimeIncOfficial)
+[![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/veil-protocol)
 [![Resume PDF](https://img.shields.io/badge/Resume-PDF-red?style=for-the-badge&logo=adobe-acrobat-reader&logoColor=white)](/assets/resume/Siddarth_Kanaparthy_Resume.pdf)
 [![Resume HTML](https://img.shields.io/badge/Resume-HTML-orange?style=for-the-badge&logo=html5&logoColor=white)](/assets/resume/resume.html)
 
@@ -113,7 +113,7 @@ Lipscomb University, Nashville, TN | Expected Spring 2028
 
 - **Email:** limeinc.official@gmail.com
 - **LinkedIn:** [linkedin.com/in/sidious07](https://www.linkedin.com/in/sidious07/)
-- **GitHub:** [github.com/LimeIncOfficial](https://github.com/LimeIncOfficial)
+- **GitHub:** [github.com/veil-protocol](https://github.com/veil-protocol)
 - **Location:** Nashville, TN
 
 ---
